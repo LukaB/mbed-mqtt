@@ -528,8 +528,12 @@ bool MQTT::Client<Network, Timer, a, b>::isTopicMatched(char* topicFilter, MQTTS
     if(*curf != '\0')
     {
         //If our topic filter ends with a wildcard '/#' we need to account for that
-        if((*curf == '/') && (*(curf++) == '#'))
-            curf++;
+        if(*curf == '/')
+	{
+		curf++;
+		if(*curf == '#')
+			curf++;
+	}
     }
 
     return (curn == curn_end) && (*curf == '\0');
